@@ -13,21 +13,9 @@ repositories {
 }
 
 dependencies {
-    //api(kotlin("stdlib-jdk8"))
-
-//
-   // Align versions of all Kotlin components
-    //implementation(platform(kotlin("bom")))    // Use the Kotlin JDK 8 standard library.
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))
-//
-//    // Testing
-    //testImplementation ("org.junit.jupiter:junit-jupiter-api")
     testImplementation(kotlin("test"))
-    //testImplementation("org.jetbrains.kotlin:kotlin-test")
-    //testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
-    //testImplementation(platform("org.junit:junit-bom:5.8.2"))
-    //testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
 
@@ -35,6 +23,7 @@ kotlin {
     sourceSets {
         val main by getting
         val test by getting
+//        val example by getting
     }
 }
 
