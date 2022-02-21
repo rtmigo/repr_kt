@@ -128,6 +128,8 @@ listOf(1, 2, 3)
 ### Set your own .toRepr for a class
 
 ```kotlin
+import io.github.rtmigo.repr.toRepr
+
 class MyClass(val x: String) {
     fun toRepr() = "MyClass(${x.uppercase()})"
 }
