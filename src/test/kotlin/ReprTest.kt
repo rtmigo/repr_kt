@@ -257,5 +257,29 @@ class ReprTests {
         )
     }
 
+    @Test
+    fun `class with own toRepr() implementation`() {
+
+        class MyClass(ab: String) {
+            val a = ab[0].digitToInt()
+            val b = ab[2].digitToInt()
+
+            fun toRepr(): String {
+                return "MyClass(\"${"$a|$b"}\")"
+            }
+        }
+
+        assertEquals(
+            """MyClass("5|7")""",
+            MyClass("5|7").toRepr()
+        )
+
+        assertEquals(
+            """listOf(MyClass("5|7"), MyClass("1|2"))""",
+            listOf(MyClass("5|7"), MyClass("1|2")).toRepr()
+        )
+
+    }
+
 }
 

@@ -114,10 +114,37 @@ dependencies {
 import io.github.rtmigo.repr.toRepr
 
 fun main() {
-    val x = listOf(1, 2, 3)
-    println(x.toRepr())
+    val data = listOf(1, 2, 3)
+    println(data.toRepr())
 }
 ```
+
+Output:
+
+```kotlin
+listOf(1, 2, 3)
+```
+
+### Set your own .toRepr for a class
+
+```kotlin
+class MyClass(val x: String) {
+    fun toRepr() = "MyClass(${x.uppercase()})"
+}
+
+fun main() {
+    val data = listOf(MyClass("abc"), MyClass("def"))
+    println(data.toRepr())
+}
+```
+
+Output:
+```kotlin
+listOf(MyClass("ABC"), MyClass("DEF"))
+```
+
+Specifying the toRepr method here is similar to overloading the `__repr__()` method in Python.
+
 
 ## License
 

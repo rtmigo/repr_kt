@@ -114,6 +114,16 @@ private fun <T> arrayContents(iterable: Sequence<T>): String {
     return iterable.joinToString(", ") { it.toRepr() }
 }
 
+//private val STRING_KTYPE: KType = String::class.createType()
+
+fun getOwnToRepr(obj: Any): KFunction<String>? {
+    val result = obj::class.memberFunctions.firstOrNull() {
+        it.name == "toRepr"// && it.returnType == STRING_KTYPE
+    } ?: return null
+
+    return result as KFunction<String>
+}
+
 /**
  * На входе у нас дерево элементов, которое может состоять из списков, словарей, объектов.
  * На выходе - код на языке котлин со всеми его "mapOf" и "listOf".
@@ -124,6 +134,11 @@ private fun <T> arrayContents(iterable: Sequence<T>): String {
 fun Any?.toRepr(): String {
     if (this == null) {
         return "null"
+    }
+
+    val localToRepr = getOwnToRepr(this)
+    if (localToRepr!=null) {
+        return localToRepr.call(this) as String
     }
 
     return when (this) {
