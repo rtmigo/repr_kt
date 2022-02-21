@@ -145,7 +145,7 @@ Output:
 listOf(MyClass("ABC"), MyClass("DEF"))
 ```
 
-Specifying the toRepr method here is similar to overloading the `__repr__()` method in Python.
+Specifying the `toRepr` method here is similar to overloading the `__repr__()` method in Python.
 
 
 # License
