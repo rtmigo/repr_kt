@@ -11,7 +11,7 @@ import kotlin.test.*
 @JvmInline
 private value class IntValueClass(val x: Int)
 
-class ReprTests {
+class ReprTests123 {
     @Test
     fun `tree with list and map`() {
         //throw Exception()
