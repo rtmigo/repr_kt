@@ -13,7 +13,7 @@ private value class IntValueClass(val x: Int)
 
 class ReprTests {
     @Test
-    fun threeWithListAndMap() {
+    fun `tree with list and map`() {
         //throw Exception()
         data class Item(val city: String, val year: Int)
 
@@ -57,7 +57,7 @@ class ReprTests {
     }
 
     @Test
-    fun extraPropertyIgnoredIfAllParametersHaveProperties() {
+    fun `extra public property ignored if all constructor parameters correspond to properties`() {
         class Item(val city: String, val year: Int) {
             val extra = "$city!" // это не должно быть в строке
         }
@@ -71,7 +71,7 @@ class ReprTests {
     }
 
     @Test
-    fun classWithDefaultValueParameter() {
+    fun `class with constructor parameter that has default value`() {
         class Item(val city: String, val year: Int = 1981) {
             val extra = "$city!" // это не должно быть в строке
         }
@@ -85,7 +85,7 @@ class ReprTests {
     }
 
     @Test
-    fun classWithNonPropertyArgumentPrintsAllProperties() {
+    fun `when constructor has a non-property parameter, all properties are converted`() {
         // тут с конструктором не сложилось, поэтому класс вернет все свойства
         class Item(cityParam: String, val year: Int = 1981) {
             val cityProp = cityParam.uppercase()
@@ -97,16 +97,16 @@ class ReprTests {
             """Item(cityProp="MINSK", year=1981)""",
             src.toRepr()
         )
-
-        //assertThrows<NonPropertyConstructorParameterError> { src.toQndRepr() }
     }
 
     @Test
-    fun classWithNonPropertyArgumentNamedAsParameter() {
-        class Item(city: String, val year: Int = 1981) {
-            val city = city.uppercase()
+    fun `constructor has non-property parameter with the same name as a property`() {
+        class Item(city: String, // not a property
+                   val year: Int = 1981) {
+            val city = city.uppercase() // a property with the same name
         }
 
+        // actually this is a problem, but that's the best we can do
         val src = Item(city = "Minsk")
         assertEquals(
             """Item(city="MINSK", year=1981)""",
@@ -115,7 +115,7 @@ class ReprTests {
     }
 
     @Test
-    fun emptyConstructor() {
+    fun `empty constructor`() {
         class Item
 
         val src = Item()
@@ -123,7 +123,7 @@ class ReprTests {
     }
 
     @Test
-    fun varargConstructor() {
+    fun `constructor with vararg`() {
         class Item(vararg val args: Int)
 
         val src = Item(1, 2, 3)
@@ -131,26 +131,19 @@ class ReprTests {
     }
 
     @Test
-    fun varArrays() {
+    fun arrays() {
         assertEquals("byteArrayOf(23, 42)", byteArrayOf(23, 42).toRepr())
         assertEquals("shortArrayOf(23, 42)", shortArrayOf(23, 42).toRepr())
         assertEquals("intArrayOf(23, 42)", intArrayOf(23, 42).toRepr())
         assertEquals("longArrayOf(23L, 42L)", longArrayOf(23, 42).toRepr())
 
-//        assertEquals("Item(args=ubyteArrayOf(23, 42))", ubyteArrayOf(23u, 42u).toQndRepr())
-//        assertEquals("Item(args=ushortArrayOf(23, 42))", ushortArrayOf(23u, 42u).toQndRepr())
-//        assertEquals("Item(args=uintArrayOf(23, 42))", uintArrayOf(23u, 42u).toQndRepr())
-//        assertEquals("Item(args=ulongArrayOf(23, 42))", ulongArrayOf(23u, 42u).toQndRepr())
-//
         assertEquals("floatArrayOf(23.0f, 42.0f)", floatArrayOf(23.0f, 42.0f).toRepr())
         assertEquals("doubleArrayOf(23.0, 42.0)", doubleArrayOf(23.0, 42.0).toRepr())
-
-
     }
 
 
     @Test
-    fun valueClass() {
+    fun `value class`() {
         val src = IntValueClass(10)
         src.x
         assertEquals(
