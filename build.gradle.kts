@@ -23,7 +23,6 @@ kotlin {
     sourceSets {
         val main by getting
         val test by getting
-//        val example by getting
     }
 }
 
