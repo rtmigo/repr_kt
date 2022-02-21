@@ -66,8 +66,9 @@ mapOf(
 
 *(both examples formatted for ease of reading)*
 
-This library is inspired by Python's built-in 
-[`repr`]([https://docs.python.org/3/library/functions.html#repr]) function (`__repr__`).
+The library uses the features of Kotlin reflection. It is inspired by Python's built-in 
+[`repr`]([https://docs.python.org/3/library/functions.html#repr]) function (and `__repr__` 
+overloads). 
 
 # Install
 
