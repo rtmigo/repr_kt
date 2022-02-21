@@ -5,7 +5,6 @@
 
 package io.github.rtmigo.repr
 
-// avoiding JVM dependencies
 import kotlin.reflect.*
 import kotlin.reflect.full.*
 import kotlin.reflect.jvm.internal.KotlinReflectionInternalError
