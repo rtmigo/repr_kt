@@ -23,7 +23,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ ubuntu-latest ] # windows-latest
+        os: [ ubuntu-latest, windows-latest ] #
 
     steps:
       - uses: actions/checkout@v2
@@ -75,12 +75,14 @@ jobs:
           target_branch: staging
           github_token: ${{ github.token }}
 
-  to-github-release:
-    # if the commit message was "publish", copy the tested code
-    # to "master" branch and create GitHub release
-
+  publish-flag:
     if: github.event.head_commit.message=='publish'
-    needs: [ test ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+  to-github-release:
+    needs: [ test, publish-flag ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -113,25 +115,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-#      - name: Attach JAR to release
-#        uses: skx/github-action-publish-binaries@master
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        with:
-#          # needs.create_release.outputs.id
-#          #releaseId: ${{ env.PKGVER }}
-#          releaseId: ${{ needs.publish_github_release.outputs.id }}
-#          args: './build/libs/*.jar'
-
-#      # UPDATE MASTER BRANCH
-#
-
   to-master:
-    # if the commit message was "publish", copy the tested code
-    # to "master" branch and create GitHub release
-
-    if: github.event.head_commit.message=='publish'
-    needs: [ test ]
+    needs: [ test, publish-flag ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
