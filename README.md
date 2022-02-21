@@ -72,42 +72,23 @@ overloads).
 
 # Install
 
-(if you use Gradle scripts in Groovy)
+*(instructions for Gradle Kotlin DSL)*
 
-Edit **settings.gradle**:
+### settings.gradle.kts
 
-```groovy
-// add this:
+```kotlin
 sourceControl {
-  gitRepository(URI.create("https://github.com/rtmigo/repr_kt.git")) {
-    producesModule("io.github.rtmigo:repr")
-  }
+    gitRepository(java.net.URI("https://github.com/rtmigo/repr_kt.git")) {
+        producesModule("io.github.rtmigo:repr")
+    }
 }
 ```
 
-Edit **build.gradle**:
+### build.gradle.kts
 
-```groovy
-dependencies {
-    // add this: 
-    implementation("io.github.rtmigo:repr") { version { branch = 'staging' } }
-}    
+```kotlin
+implementation("io.github.rtmigo:repr") { version { branch = "staging" } }
 ```
-
-<details>
-  <summary>Or depend on particular version</summary>
-
-Edit **build.gradle**:
-
-```groovy
-dependencies {
-    // add this:     
-    implementation "io.github.rtmigo:repr:0.0.1"
-}
-```
-
-(the changes to **settings.gradle** are the same as above)
-</details>
 
 # Use
 
