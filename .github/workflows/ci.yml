@@ -91,14 +91,19 @@ jobs:
           distribution: 'adopt'
           cache: gradle
 
+      - name: Build binaries (with testing)
+        run: |
+          ./gradlew build
+
       # ADD GITHUB RELEASE
       - name: Warm up gradle
-        # so it will not show '..........10%...........20%...........30%'
-        # for the second time
+        # so it will not show "..........10%...........20%...........30%...."
+        # when called again
         run: ./gradlew pkgver -q
 
       - name: Get the project version
         run: echo "PKGVER=$(./gradlew pkgver -q)" >> $GITHUB_ENV
+
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v1
         with:
@@ -106,11 +111,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # UPDATE MASTER BRANCH
-      - name: Merge to master branch
-        uses: devmasx/merge-branch@v1.3.1
+      - name: Attach JAR to release
+        uses: skx/github-action-publish-binaries@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          type: now
-          target_branch: master
-          github_token: ${{ github.token }}
+          args: './build/libs/*.jar'
 
+#      # UPDATE MASTER BRANCH
+#      - name: Merge to master branch
+#        uses: devmasx/merge-branch@v1.3.1
+#        with:
+#          type: now
+#          target_branch: master
+#          github_token: ${{ github.token }}
+#
