@@ -88,7 +88,13 @@ sourceControl {
 ### build.gradle.kts
 
 ```kotlin
-implementation("io.github.rtmigo:repr") { version { branch = "staging" } }
+implementation("io.github.rtmigo:repr")  // newest version
+```
+
+or
+
+```kotlin
+implementation("io.github.rtmigo:repr:0.1.0")  // version 0.1.0
 ```
 
 # Use

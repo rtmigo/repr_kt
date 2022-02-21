@@ -75,7 +75,7 @@ jobs:
           target_branch: staging
           github_token: ${{ github.token }}
 
-  to-master:
+  to-github-release:
     # if the commit message was "publish", copy the tested code
     # to "master" branch and create GitHub release
 
@@ -91,26 +91,53 @@ jobs:
           distribution: 'adopt'
           cache: gradle
 
+      - name: Build binaries (with testing)
+        run: |
+          ./gradlew build
+
       # ADD GITHUB RELEASE
       - name: Warm up gradle
-        # so it will not show '..........10%...........20%...........30%'
-        # for the second time
+        # so it will not show "..........10%...........20%...........30%...."
+        # when called again
         run: ./gradlew pkgver -q
 
       - name: Get the project version
         run: echo "PKGVER=$(./gradlew pkgver -q)" >> $GITHUB_ENV
+
       - name: Publish GitHub release
+        id: publish_github_release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.PKGVER }}
+          files: ./build/libs/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # UPDATE MASTER BRANCH
+#      - name: Attach JAR to release
+#        uses: skx/github-action-publish-binaries@master
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          # needs.create_release.outputs.id
+#          #releaseId: ${{ env.PKGVER }}
+#          releaseId: ${{ needs.publish_github_release.outputs.id }}
+#          args: './build/libs/*.jar'
+
+#      # UPDATE MASTER BRANCH
+#
+
+  to-master:
+    # if the commit message was "publish", copy the tested code
+    # to "master" branch and create GitHub release
+
+    if: github.event.head_commit.message=='publish'
+    needs: [ test ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
       - name: Merge to master branch
         uses: devmasx/merge-branch@v1.3.1
         with:
           type: now
           target_branch: master
           github_token: ${{ github.token }}
-
