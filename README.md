@@ -6,8 +6,8 @@
 
 Kotlin/JVM library. Converts Kotlin objects and data structures to strings.
 
-`.toRepr()` aims to produce a string that is valid Kotlin code. Ideally simple cases, 
-this string can be copied into the project's source code to create the same data structure.
+`.toRepr()` aims to produce a string that is valid Kotlin code. Ideally, 
+this string can be copied into the project's source code to create the same objects.
 
 Let's say we have the following data:
 
@@ -121,6 +121,6 @@ fun main() {
 
 ## License
 
-Copyright (c) 2022 Artёm IG <github.com/rtmigo>
+Copyright © 2022 Artёm IG <github.com/rtmigo>
 
 Licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
