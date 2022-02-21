@@ -47,7 +47,7 @@ Calling the default `data.toString()` would give us this:
 }
 ```
 
-Calling `data.toRepr()` (from `io.github.rtmigo.repr`) would give us this:
+Calling `data.toRepr()` (defined in this library) would give us this:
 
 ```kotlin
 mapOf(
