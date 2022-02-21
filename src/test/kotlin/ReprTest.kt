@@ -314,7 +314,17 @@ class ReprTests {
 
         assertEquals("""MyClass(x=2)""",
                      MyClass(2).toRepr())
+    }
 
+    @Test
+    fun `class with lazy property`() {
+
+        class MyClass(priva: Int) {
+            val lzy by lazy { priva*2 }
+        }
+
+        assertEquals("""MyClass(lzy=4)""",
+                     MyClass(2).toRepr())
     }
 }
 
