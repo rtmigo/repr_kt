@@ -6,7 +6,13 @@ plugins {
 }
 
 group = "io.github.rtmigo"
-version = "0.0-SNAPSHOT"
+version = "0.0.0"
+
+tasks.register("pkgver") {
+    doLast {
+        println(project.version.toString())
+    }
+}
 
 repositories {
     mavenCentral()
@@ -17,7 +23,6 @@ dependencies {
     implementation(kotlin("reflect"))
     testImplementation(kotlin("test"))
 }
-
 
 kotlin {
     sourceSets {

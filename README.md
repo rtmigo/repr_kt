@@ -32,7 +32,7 @@ val data = mapOf(
 
 Calling the default `data.toString()` would give us this:
 
-```
+```text
 {
     week=[
         Day(name=Sunday, num=7, isWeekend=true), 
@@ -47,7 +47,8 @@ Calling the default `data.toString()` would give us this:
 }
 ```
 
-Calling `data.toRepr()` (defined in this library) would give us this:
+Calling `data.toRepr()` (defined in this library) would give us a string, that is a correct 
+Kotlin code:
 
 ```kotlin
 mapOf(
@@ -72,42 +73,23 @@ overloads).
 
 # Install
 
-(if you use Gradle scripts in Groovy)
+*(instructions for Gradle Kotlin DSL)*
 
-Edit **settings.gradle**:
+### settings.gradle.kts
 
-```groovy
-// add this:
+```kotlin
 sourceControl {
-  gitRepository(URI.create("https://github.com/rtmigo/repr_kt.git")) {
-    producesModule("io.github.rtmigo:repr")
-  }
+    gitRepository(java.net.URI("https://github.com/rtmigo/repr_kt.git")) {
+        producesModule("io.github.rtmigo:repr")
+    }
 }
 ```
 
-Edit **build.gradle**:
+### build.gradle.kts
 
-```groovy
-dependencies {
-    // add this: 
-    implementation("io.github.rtmigo:repr") { version { branch = 'staging' } }
-}    
+```kotlin
+implementation("io.github.rtmigo:repr") { version { branch = "staging" } }
 ```
-
-<details>
-  <summary>Or depend on particular version</summary>
-
-Edit **build.gradle**:
-
-```groovy
-dependencies {
-    // add this:     
-    implementation "io.github.rtmigo:repr:0.0.1"
-}
-```
-
-(the changes to **settings.gradle** are the same as above)
-</details>
 
 # Use
 
@@ -126,24 +108,24 @@ Output:
 listOf(1, 2, 3)
 ```
 
-### Set your own .toRepr for a class
+### Override .toRepr for your class
 
 ```kotlin
 import io.github.rtmigo.repr.toRepr
 
 class MyClass(val x: String) {
-    fun toRepr() = "MyClass(${x.uppercase()})"
+    fun toRepr() = """MyClass("${x.uppercase()}!!!")"""
 }
 
 fun main() {
-    val data = listOf(MyClass("abc"), MyClass("def"))
+    val data = listOf(MyClass("ping"), MyClass("pong"))
     println(data.toRepr())
 }
 ```
 
 Output:
 ```kotlin
-listOf(MyClass("ABC"), MyClass("DEF"))
+listOf(MyClass("PING!!!"), MyClass("PONG!!!"))
 ```
 
 Specifying the `toRepr` method here is similar to overloading the `__repr__()` method in Python.
