@@ -278,8 +278,24 @@ class ReprTests {
             """listOf(MyClass("5|7"), MyClass("1|2"))""",
             listOf(MyClass("5|7"), MyClass("1|2")).toRepr()
         )
-
     }
 
+    @Test
+    fun `class with own toRepr() implementation with non-string return type`() {
+
+        class MyClass(val x: Int) {
+            fun toRepr(): Int = x*2
+        }
+
+        // direct call will return integer (because it has nothing with
+        // the extension method .toRepr)
+        assertEquals(6, MyClass(3).toRepr())
+
+        // extension method will not use toRepr: Int
+        assertEquals("""MyClass(x=2)""",
+                     (MyClass(2) as Any).toRepr())
+        assertEquals("""listOf(MyClass(x=2), MyClass(x=3))""",
+                     listOf(MyClass(2), MyClass(3)).toRepr())
+    }
 }
 

@@ -114,13 +114,15 @@ private fun <T> arrayContents(iterable: Sequence<T>): String {
     return iterable.joinToString(", ") { it.toRepr() }
 }
 
-//private val STRING_KTYPE: KType = String::class.createType()
+private val STRING_KTYPE: KType = String::class.createType()
 
 fun getOwnToRepr(obj: Any): KFunction<String>? {
     val result = obj::class.memberFunctions.firstOrNull() {
-        it.name == "toRepr"// && it.returnType == STRING_KTYPE
+        it.name == "toRepr" && it.returnType == STRING_KTYPE
     } ?: return null
 
+    // we already checked that the return type is string,
+    // so we can return now
     return result as KFunction<String>
 }
 
@@ -138,7 +140,7 @@ fun Any?.toRepr(): String {
 
     val localToRepr = getOwnToRepr(this)
     if (localToRepr!=null) {
-        return localToRepr.call(this) as String
+        return localToRepr.call(this)
     }
 
     return when (this) {
