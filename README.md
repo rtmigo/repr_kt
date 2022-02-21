@@ -118,3 +118,9 @@ fun main() {
     println(x.toRepr())
 }
 ```
+
+## License
+
+Copyright (c) 2022 Artёm IG <github.com/rtmigo>
+
+Licensed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
