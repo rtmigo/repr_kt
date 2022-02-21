@@ -108,7 +108,7 @@ dependencies {
 (the changes to **settings.gradle** are the same as above)
 </details>
 
-## Use
+# Use
 
 ```kotlin
 import io.github.rtmigo.repr.toRepr
@@ -146,7 +146,7 @@ listOf(MyClass("ABC"), MyClass("DEF"))
 Specifying the toRepr method here is similar to overloading the `__repr__()` method in Python.
 
 
-## License
+# License
 
 Copyright © 2022 Artёm IG <github.com/rtmigo>
 
