@@ -4,7 +4,7 @@
 
 # [repr](https://github.com/rtmigo/repr_kt#readme)
 
-Kotlin/JVM library. Converts Kotlin objects and data structures to strings.
+Kotlin/JVM library. Converts Kotlin objects to strings.
 
 `.toRepr()` aims to produce a string that is valid Kotlin code. Ideally, 
 this string can be copied into the project's source code to create the same objects.
