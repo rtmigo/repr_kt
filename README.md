@@ -32,7 +32,7 @@ val data = mapOf(
 
 Calling the default `data.toString()` would give us this:
 
-```
+```text
 {
     week=[
         Day(name=Sunday, num=7, isWeekend=true), 
@@ -47,7 +47,8 @@ Calling the default `data.toString()` would give us this:
 }
 ```
 
-Calling `data.toRepr()` (defined in this library) would give us this:
+Calling `data.toRepr()` (defined in this library) would give us a string, that is a correct 
+Kotlin code:
 
 ```kotlin
 mapOf(
