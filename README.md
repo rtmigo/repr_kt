@@ -2,12 +2,12 @@
 ![Generic badge](https://img.shields.io/badge/CI_JVM-8-blue.svg)
 ![JaCoCo](https://raw.github.com/rtmigo/repr_kt/dev_updated_by_actions/.github/badges/jacoco.svg)
 
-# [repr](https://github.com/rtmigo/repr_kt#readme) (draft)
+# [repr](https://github.com/rtmigo/repr_kt#readme)
 
-Kotlin/JVM library. Converts Kotlin objects and data structures to strings.
+Kotlin/JVM library. Converts Kotlin objects to strings.
 
-`.toRepr()` aims to produce a string that is valid Kotlin code. Ideally simple cases, 
-this string can be copied into the project's source code to create the same data structure.
+`.toRepr()` aims to produce a string that is valid Kotlin code. Ideally, 
+this string can be copied into the project's source code to create the same objects.
 
 Let's say we have the following data:
 
@@ -114,13 +114,40 @@ dependencies {
 import io.github.rtmigo.repr.toRepr
 
 fun main() {
-    val x = listOf(1, 2, 3)
-    println(x.toRepr())
+    val data = listOf(1, 2, 3)
+    println(data.toRepr())
 }
 ```
 
+Output:
+
+```kotlin
+listOf(1, 2, 3)
+```
+
+### Set your own .toRepr for a class
+
+```kotlin
+class MyClass(val x: String) {
+    fun toRepr() = "MyClass(${x.uppercase()})"
+}
+
+fun main() {
+    val data = listOf(MyClass("abc"), MyClass("def"))
+    println(data.toRepr())
+}
+```
+
+Output:
+```kotlin
+listOf(MyClass("ABC"), MyClass("DEF"))
+```
+
+Specifying the toRepr method here is similar to overloading the `__repr__()` method in Python.
+
+
 ## License
 
-Copyright (c) 2022 Artёm IG <github.com/rtmigo>
+Copyright © 2022 Artёm IG <github.com/rtmigo>
 
 Licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
