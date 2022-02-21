@@ -297,5 +297,32 @@ class ReprTests {
         assertEquals("""listOf(MyClass(x=2), MyClass(x=3))""",
                      listOf(MyClass(2), MyClass(3)).toRepr())
     }
+
+    @Test
+    fun `class with private properties`() {
+
+        class MyClass(val x: Int) {
+            private val y = x*2
+            private val z = x/2
+        }
+
+        assertEquals("""MyClass(x=2)""",
+                     MyClass(2).toRepr())
+
+    }
+
+    @Test
+    fun `class with protected properties`() {
+
+        class MyClass(val x: Int) {
+            protected val y = x*2
+            protected val z = x/2
+        }
+
+        assertEquals("""MyClass(x=2)""",
+                     MyClass(2).toRepr())
+
+    }
+
 }
 
