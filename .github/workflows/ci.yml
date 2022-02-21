@@ -109,18 +109,19 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.PKGVER }}
+          files: ./build/libs/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Attach JAR to release
-        uses: skx/github-action-publish-binaries@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          # needs.create_release.outputs.id
-          #releaseId: ${{ env.PKGVER }}
-          releaseId: ${{ needs.publish_github_release.outputs.id }}
-          args: './build/libs/*.jar'
+#      - name: Attach JAR to release
+#        uses: skx/github-action-publish-binaries@master
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          # needs.create_release.outputs.id
+#          #releaseId: ${{ env.PKGVER }}
+#          releaseId: ${{ needs.publish_github_release.outputs.id }}
+#          args: './build/libs/*.jar'
 
 #      # UPDATE MASTER BRANCH
 #      - name: Merge to master branch
