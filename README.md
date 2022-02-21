@@ -1,4 +1,4 @@
-![Generic badge](https://img.shields.io/badge/status-experimenatal-red.svg)
+![Generic badge](https://img.shields.io/badge/status-experimental-red.svg)
 ![Generic badge](https://img.shields.io/badge/CI_JVM-8-blue.svg)
 ![JaCoCo](https://raw.github.com/rtmigo/repr_kt/dev_updated_by_actions/.github/badges/jacoco.svg)
 
@@ -47,7 +47,7 @@ Calling the default `data.toString()` would give us this:
 }
 ```
 
-This library implements the `toRepr` function. Calling `data.toRepr()` would give us this:
+Calling `data.toRepr()` (defined in this library) would give us this:
 
 ```kotlin
 mapOf(
@@ -108,7 +108,7 @@ dependencies {
 (the changes to **settings.gradle** are the same as above)
 </details>
 
-## Use
+# Use
 
 ```kotlin
 import io.github.rtmigo.repr.toRepr
@@ -128,6 +128,8 @@ listOf(1, 2, 3)
 ### Set your own .toRepr for a class
 
 ```kotlin
+import io.github.rtmigo.repr.toRepr
+
 class MyClass(val x: String) {
     fun toRepr() = "MyClass(${x.uppercase()})"
 }
@@ -143,10 +145,10 @@ Output:
 listOf(MyClass("ABC"), MyClass("DEF"))
 ```
 
-Specifying the toRepr method here is similar to overloading the `__repr__()` method in Python.
+Specifying the `toRepr` method here is similar to overloading the `__repr__()` method in Python.
 
 
-## License
+# License
 
 Copyright © 2022 Artёm IG <github.com/rtmigo>
 
