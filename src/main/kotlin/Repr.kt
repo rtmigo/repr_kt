@@ -121,8 +121,8 @@ fun getOwnToRepr(obj: Any): KFunction<String>? {
         it.name == "toRepr" && it.returnType == STRING_KTYPE
     } ?: return null
 
-    // we already checked that the return type is string,
-    // so we can return now
+    // IDE says this is "unchecked cast", but actually we already checked
+    // that the return type is String
     return result as KFunction<String>
 }
 
