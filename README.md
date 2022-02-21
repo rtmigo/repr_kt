@@ -1,4 +1,4 @@
-![Generic badge](https://img.shields.io/badge/status-experimenatal-red.svg)
+![Generic badge](https://img.shields.io/badge/status-experimental-red.svg)
 ![Generic badge](https://img.shields.io/badge/CI_JVM-8-blue.svg)
 ![JaCoCo](https://raw.github.com/rtmigo/repr_kt/dev_updated_by_actions/.github/badges/jacoco.svg)
 
