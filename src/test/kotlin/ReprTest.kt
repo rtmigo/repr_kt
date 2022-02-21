@@ -157,7 +157,7 @@ class ReprTests {
         val src = 3.141593.toBigDecimal()
 
         assertEquals(
-            "3.141593.toBigDecimal()",
+            "<BigDecimal 3.141593>",
             src.toRepr()
         )
     }

@@ -5,7 +5,7 @@
 
 package io.github.rtmigo.repr
 
-import java.math.BigDecimal
+//import java.math.BigDecimal
 //import kotlin.BigDecimal
 import kotlin.reflect.*
 import kotlin.reflect.full.*
@@ -34,17 +34,34 @@ private fun KClass<*>.findDeclaredMemberProperty(name: String) =
 
 private fun KClass<*>.hasProperties(): Boolean = !this.declaredMemberProperties.isEmpty()
 
-private fun reflectConstructorProperties(obj: Any): String {
-
+private class AnalyzedObject(val obj: Any) {
     val namedParams = mutableListOf<KParameter>()
     var areNamedParamsCorrespondToProperties = true
-    for (param in (obj::class.primaryConstructor?.parameters) ?: listOf()) {
-        if (param.name==null)
-            continue
-        namedParams.add(param)
-        if (!obj::class.hasProperty(param.name!!))
-            areNamedParamsCorrespondToProperties = false
+
+    init {
+        for (param in (obj::class.primaryConstructor?.parameters) ?: listOf()) {
+            if (param.name == null)
+                continue
+            namedParams.add(param)
+            if (!obj::class.hasProperty(param.name!!))
+                areNamedParamsCorrespondToProperties = false
+        }
     }
+
+    val convertibleProperties: Lazy<Collection<KProperty1<*, *>>> =
+        lazy {
+            (if (areNamedParamsCorrespondToProperties) {
+                namedParams.map { obj::class.findDeclaredMemberProperty(it.name!!) }
+            }
+            else {
+                obj::class.declaredMemberProperties
+            }
+                ).filter { prop -> prop.visibility == KVisibility.PUBLIC }
+        }
+}
+
+private fun reflectConstructorProperties(pre: AnalyzedObject): String {
+    //val pre = Pre(obj)
 
 
 //    val allParamsHaveSameNamedProperties =
@@ -70,21 +87,11 @@ private fun reflectConstructorProperties(obj: Any): String {
     //
     // Поэтому расслабляемся и генерируем лучшее, что можем.
 
-    val selectedProperties: Collection<KProperty1<*,*>> = (
-        if (areNamedParamsCorrespondToProperties) {
-            namedParams.map { obj::class.findDeclaredMemberProperty(it.name!!) }
-        }
-        else {
-            obj::class.declaredMemberProperties
-        }
-        ).filter { prop -> prop.visibility == KVisibility.PUBLIC }
-
-
-    val args = selectedProperties
-        .mapNotNull { prop -> toAssignmentOrNull(obj, prop) }
+    val args = pre.convertibleProperties.value
+        .mapNotNull { prop -> toAssignmentOrNull(pre.obj, prop) }
         .joinToString(", ")
 
-    return "${obj.javaClass.kotlin.simpleName}($args)"
+    return "${pre.obj.javaClass.kotlin.simpleName}($args)"
 }
 
 
@@ -187,7 +194,7 @@ fun Any?.toRepr(): String {
         is Double -> this.toString()
 
         is Boolean -> this.toString()
-        is BigDecimal -> "$this.toBigDecimal()"
+        //is BigDecimal -> "$this.toBigDecimal()"
 
         is ByteArray -> "byteArrayOf(${arrayContents(this.iterator().asSequence().map { it.toInt() })})"
         is ShortArray -> "shortArrayOf(${arrayContents(this.iterator().asSequence().map { it.toInt() })})"
@@ -200,8 +207,9 @@ fun Any?.toRepr(): String {
         is DoubleArray -> "doubleArrayOf(${arrayContents(this.iterator().asSequence())})"
 
         else -> {
-            if (this::class.hasProperties()) {
-                reflectConstructorProperties(this)
+            val pre = AnalyzedObject(this)
+            if (pre.convertibleProperties.value.isNotEmpty()) {
+                reflectConstructorProperties(pre)
             }
             else {
                 // у объекта нет ни одного свойства. Возможно, его можно создать
