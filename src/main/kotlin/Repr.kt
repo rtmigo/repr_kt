@@ -26,15 +26,30 @@ private fun KClass<*>.hasConstructorParameter(name: String) =
 private fun KClass<*>.hasProperty(name: String) =
     this.declaredMemberProperties.firstOrNull { it.name == name } != null
 
+private fun KClass<*>.findDeclaredMemberProperty(name: String) =
+    this.declaredMemberProperties.first { it.name == name }
+
+
 
 private fun KClass<*>.hasProperties(): Boolean = !this.declaredMemberProperties.isEmpty()
 
-
 private fun reflectConstructorProperties(obj: Any): String {
-    val allParamsHaveSameNamedProperties =
-        obj::class.primaryConstructor?.parameters?.all { param ->
-            obj::class.hasProperty(param.name!!)
-        } ?: true
+
+    val params = mutableListOf<KParameter>()
+    var paramsCorrespondToProperties = true
+    for (param in (obj::class.primaryConstructor?.parameters) ?: listOf()) {
+        if (param.name==null)
+            continue
+        params.add(param)
+        if (!obj::class.hasProperty(param.name!!))
+            paramsCorrespondToProperties = false
+    }
+
+
+//    val allParamsHaveSameNamedProperties =
+//        obj::class.primaryConstructor?.parameters?.all { param ->
+//            obj::class.hasProperty(param.name!!)
+//        } ?: true
 
     // если для каждого аргумента конструктора есть одноименное свойство объекта, вероятно,
     // мы имеем дело чем-то вроде датакласса. Мы сможем легко воспроизвести конструктор вместе
@@ -54,11 +69,12 @@ private fun reflectConstructorProperties(obj: Any): String {
     //
     // Поэтому расслабляемся и генерируем лучшее, что можем.
 
-    val selectedProperties = (
-        if (allParamsHaveSameNamedProperties) {
-            obj::class.declaredMemberProperties.filter { prop ->
-                obj::class.hasConstructorParameter(prop.name)
-            }
+    val selectedProperties: Collection<KProperty1<*,*>> = (
+        if (paramsCorrespondToProperties) {
+            params.map { obj::class.findDeclaredMemberProperty(it.name!!) }
+//            obj::class.declaredMemberProperties.filter { prop ->
+//                obj::class.hasConstructorParameter(prop.name)
+//            }
         }
         else {
             obj::class.declaredMemberProperties
