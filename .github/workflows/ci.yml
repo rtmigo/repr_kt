@@ -116,7 +116,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          releaseId: ${{ env.PKGVER }}
+          # needs.create_release.outputs.id
+          #releaseId: ${{ env.PKGVER }}
+          releaseId: ${{ needs.create_release.outputs.id }}
           args: './build/libs/*.jar'
 
 #      # UPDATE MASTER BRANCH
