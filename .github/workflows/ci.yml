@@ -105,6 +105,7 @@ jobs:
         run: echo "PKGVER=$(./gradlew pkgver -q)" >> $GITHUB_ENV
 
       - name: Publish GitHub release
+        id: publish_github_release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.PKGVER }}
@@ -118,7 +119,7 @@ jobs:
         with:
           # needs.create_release.outputs.id
           #releaseId: ${{ env.PKGVER }}
-          releaseId: ${{ needs.create_release.outputs.id }}
+          releaseId: ${{ needs.publish_github_release.outputs.id }}
           args: './build/libs/*.jar'
 
 #      # UPDATE MASTER BRANCH
