@@ -316,6 +316,5 @@ class ReprTests {
                      MyClass(2).toRepr())
 
     }
-
 }
 

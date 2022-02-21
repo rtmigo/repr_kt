@@ -6,6 +6,7 @@
 package io.github.rtmigo.repr
 
 import java.math.BigDecimal
+//import kotlin.BigDecimal
 import kotlin.reflect.*
 import kotlin.reflect.full.*
 import kotlin.reflect.jvm.internal.KotlinReflectionInternalError
@@ -35,14 +36,14 @@ private fun KClass<*>.hasProperties(): Boolean = !this.declaredMemberProperties.
 
 private fun reflectConstructorProperties(obj: Any): String {
 
-    val params = mutableListOf<KParameter>()
-    var paramsCorrespondToProperties = true
+    val namedParams = mutableListOf<KParameter>()
+    var areNamedParamsCorrespondToProperties = true
     for (param in (obj::class.primaryConstructor?.parameters) ?: listOf()) {
         if (param.name==null)
             continue
-        params.add(param)
+        namedParams.add(param)
         if (!obj::class.hasProperty(param.name!!))
-            paramsCorrespondToProperties = false
+            areNamedParamsCorrespondToProperties = false
     }
 
 
@@ -70,11 +71,8 @@ private fun reflectConstructorProperties(obj: Any): String {
     // Поэтому расслабляемся и генерируем лучшее, что можем.
 
     val selectedProperties: Collection<KProperty1<*,*>> = (
-        if (paramsCorrespondToProperties) {
-            params.map { obj::class.findDeclaredMemberProperty(it.name!!) }
-//            obj::class.declaredMemberProperties.filter { prop ->
-//                obj::class.hasConstructorParameter(prop.name)
-//            }
+        if (areNamedParamsCorrespondToProperties) {
+            namedParams.map { obj::class.findDeclaredMemberProperty(it.name!!) }
         }
         else {
             obj::class.declaredMemberProperties
@@ -137,7 +135,7 @@ fun getOwnToRepr(obj: Any): KFunction<String>? {
         it.name == "toRepr" && it.returnType == STRING_KTYPE
     } ?: return null
 
-    // IDE says this is "unchecked cast", but actually we already checked
+    // IDE says this is "unchecked cast", but we have checked
     // that the return type is String
     return result as KFunction<String>
 }
@@ -213,11 +211,12 @@ fun Any?.toRepr(): String {
                 //      <__main__.Animal object at 0x7f3e4c203cc0>
                 //
                 // Если объект не переопределял свой toString(), мы вернем что-то вроде
-                //      <com.package$func$Animal@72b16078>
+                //      <Animal "com.package$func$Animal@72b16078">
+                //      <BigDecimal "3.1415">
                 //
                 // А если переопределял, то в скобках <> может быть что осмысленное
 
-                return "<${this}>"
+                return "<${this::class.simpleName} ${this}>"
             }
         }
     }
