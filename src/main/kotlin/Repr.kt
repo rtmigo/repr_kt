@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  **/
 
-package io.github.rtmigo.repr
+//**#package io.github.rtmigo.repr
 
 import kotlin.reflect.*
 import kotlin.reflect.full.*
