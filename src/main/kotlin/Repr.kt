@@ -53,7 +53,7 @@ private class AnalyzedObject(val obj: Any) {
     /**
      * All the properties that we want to convert as `propertyName=value`.
      **/
-    val convertibleProperties: Lazy<Collection<KProperty1<*, *>>> =
+    val convertibleProperties: Collection<KProperty1<*, *>> by
         lazy {
             (if (areNamedParamsCorrespondToProperties)
                 namedParams.map { obj::class.findDeclaredMemberProperty(it.name!!) }
@@ -83,7 +83,7 @@ private fun reflectConstructorProperties(pre: AnalyzedObject): String {
     //
     // Поэтому расслабляемся и генерируем лучшее, что можем.
 
-    val args = pre.convertibleProperties.value
+    val args = pre.convertibleProperties
         .mapNotNull { prop -> toAssignmentOrNull(pre.obj, prop) }
         .joinToString(", ")
 
@@ -209,7 +209,7 @@ fun Any?.toRepr(): String {
 
         else -> {
             val pre = AnalyzedObject(this)
-            if (pre.convertibleProperties.value.isNotEmpty()) {
+            if (pre.convertibleProperties.isNotEmpty()) {
                 reflectConstructorProperties(pre)
             }
             else {
