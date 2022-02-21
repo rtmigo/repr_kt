@@ -5,8 +5,7 @@
 
 package io.github.rtmigo.repr
 
-//import java.math.BigDecimal
-//import kotlin.BigDecimal
+// avoiding JVM dependencies
 import kotlin.reflect.*
 import kotlin.reflect.full.*
 import kotlin.reflect.jvm.internal.KotlinReflectionInternalError
@@ -31,11 +30,15 @@ private fun KClass<*>.findDeclaredMemberProperty(name: String) =
     this.declaredMemberProperties.first { it.name == name }
 
 
-
 private fun KClass<*>.hasProperties(): Boolean = !this.declaredMemberProperties.isEmpty()
 
 private class AnalyzedObject(val obj: Any) {
-    val namedParams = mutableListOf<KParameter>()
+    private val namedParams = mutableListOf<KParameter>()
+
+    /**
+     * Will be `true` if for each parameter of primary constructor there is a class property
+     * with the same name.
+     **/
     var areNamedParamsCorrespondToProperties = true
 
     init {
@@ -48,27 +51,21 @@ private class AnalyzedObject(val obj: Any) {
         }
     }
 
+    /**
+     * All the properties that we want to convert as `propertyName=value`.
+     **/
     val convertibleProperties: Lazy<Collection<KProperty1<*, *>>> =
         lazy {
-            (if (areNamedParamsCorrespondToProperties) {
+            (if (areNamedParamsCorrespondToProperties)
                 namedParams.map { obj::class.findDeclaredMemberProperty(it.name!!) }
-            }
-            else {
-                obj::class.declaredMemberProperties
-            }
-                ).filter { prop -> prop.visibility == KVisibility.PUBLIC }
+            else
+                obj::class.declaredMemberProperties)
+
+                .filter { prop -> prop.visibility == KVisibility.PUBLIC }
         }
 }
 
 private fun reflectConstructorProperties(pre: AnalyzedObject): String {
-    //val pre = Pre(obj)
-
-
-//    val allParamsHaveSameNamedProperties =
-//        obj::class.primaryConstructor?.parameters?.all { param ->
-//            obj::class.hasProperty(param.name!!)
-//        } ?: true
-
     // если для каждого аргумента конструктора есть одноименное свойство объекта, вероятно,
     // мы имеем дело чем-то вроде датакласса. Мы сможем легко воспроизвести конструктор вместе
     // со значениями.
@@ -137,30 +134,29 @@ private fun <T> arrayContents(iterable: Sequence<T>): String {
 
 private val STRING_KTYPE: KType = String::class.createType()
 
+
 fun getOwnToRepr(obj: Any): KFunction<String>? {
-    val result = obj::class.memberFunctions.firstOrNull() {
+    val result = obj::class.memberFunctions.firstOrNull {
         it.name == "toRepr" && it.returnType == STRING_KTYPE
     } ?: return null
 
-    // IDE says this is "unchecked cast", but we have checked
-    // that the return type is String
+    // We have checked that the return type is String
+    @Suppress("UNCHECKED_CAST")
     return result as KFunction<String>
 }
 
 /**
- * На входе у нас дерево элементов, которое может состоять из списков, словарей, объектов.
- * На выходе - код на языке котлин со всеми его "mapOf" и "listOf".
- *
- * Метод помечем как QND (quick-n-dirty), поскольку слабо тестирован. Известно также, что он
- * некорретно генерирует конструкторы классов, где были аргументы без ключевого слова "val".
+ * Aims to produce a string that is valid Kotlin code. Ideally, this string can be copied into the
+ * project's source code to create the same objects.
  **/
 fun Any?.toRepr(): String {
+
     if (this == null) {
         return "null"
     }
 
     val localToRepr = getOwnToRepr(this)
-    if (localToRepr!=null) {
+    if (localToRepr != null) {
         return localToRepr.call(this)
     }
 
@@ -196,8 +192,14 @@ fun Any?.toRepr(): String {
         is Boolean -> this.toString()
         //is BigDecimal -> "$this.toBigDecimal()"
 
-        is ByteArray -> "byteArrayOf(${arrayContents(this.iterator().asSequence().map { it.toInt() })})"
-        is ShortArray -> "shortArrayOf(${arrayContents(this.iterator().asSequence().map { it.toInt() })})"
+        is ByteArray -> "byteArrayOf(${
+            arrayContents(
+                this.iterator().asSequence().map { it.toInt() })
+        })"
+        is ShortArray -> "shortArrayOf(${
+            arrayContents(
+                this.iterator().asSequence().map { it.toInt() })
+        })"
         is IntArray -> "intArrayOf(${arrayContents(this.iterator().asSequence())})"
         is LongArray -> "longArrayOf(${arrayContents(this.iterator().asSequence())})"
 
