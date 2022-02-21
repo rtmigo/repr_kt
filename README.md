@@ -12,7 +12,9 @@ this string can be copied into the project's source code to create the same data
 Let's say we have the following data:
 
 ```kotlin
-data class Day(val name: String, val num: Int, val isWeekend: Boolean)
+data class Day(val name: String, 
+               val num: Int, 
+               val isWeekend: Boolean)
 
 val data = mapOf(
     "week" to listOf(
@@ -116,3 +118,9 @@ fun main() {
     println(x.toRepr())
 }
 ```
+
+## License
+
+Copyright (c) 2022 Artёm IG <github.com/rtmigo>
+
+Licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
