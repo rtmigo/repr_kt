@@ -108,24 +108,24 @@ Output:
 listOf(1, 2, 3)
 ```
 
-### Set your own .toRepr for a class
+### Override .toRepr for your class
 
 ```kotlin
 import io.github.rtmigo.repr.toRepr
 
 class MyClass(val x: String) {
-    fun toRepr() = "MyClass(${x.uppercase()})"
+    fun toRepr() = """MyClass("${x.uppercase()}!!!")"""
 }
 
 fun main() {
-    val data = listOf(MyClass("abc"), MyClass("def"))
+    val data = listOf(MyClass("ping"), MyClass("pong"))
     println(data.toRepr())
 }
 ```
 
 Output:
 ```kotlin
-listOf(MyClass("ABC"), MyClass("DEF"))
+listOf(MyClass("PING!!!"), MyClass("PONG!!!"))
 ```
 
 Specifying the `toRepr` method here is similar to overloading the `__repr__()` method in Python.
