@@ -78,6 +78,8 @@ jobs:
   will-publish:
     if: github.event.head_commit.message=='publish'
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
 
   to-github-release:
     # if the commit message was "publish", copy the tested code
