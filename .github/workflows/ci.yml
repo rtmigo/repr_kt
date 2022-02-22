@@ -95,8 +95,36 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-  to-github-release:
+  to-master:
     needs: [ to-staging, publish-flag ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Merge to master branch
+        uses: devmasx/merge-branch@v1.3.1
+        with:
+          type: now
+          target_branch: master
+          github_token: ${{ github.token }}
+
+  integration-test-default:
+    needs: [to-master]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+          cache: gradle
+      - name: Build sample project that uses the package
+        run: |
+          cd integration_tests/install_from_default_branch
+          ./test.sh
+
+  to-github-release:
+    needs: [ integration-test-default ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -128,31 +156,3 @@ jobs:
           files: ./build/libs/*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  to-master:
-    needs: [ to-staging, publish-flag ]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Merge to master branch
-        uses: devmasx/merge-branch@v1.3.1
-        with:
-          type: now
-          target_branch: master
-          github_token: ${{ github.token }}
-
-  integration-test-default:
-    needs: [to-master]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup JDK 8
-        uses: actions/setup-java@v2
-        with:
-          java-version: '8'
-          distribution: 'adopt'
-          cache: gradle
-      - name: Build sample project that uses the package
-        run: |
-          cd integration_tests/install_from_default_branch
-          ./test.sh
