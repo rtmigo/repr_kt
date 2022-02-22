@@ -64,3 +64,18 @@ tasks.jacocoTestReport {
         csv.required.set(true)
     }
 }
+
+tasks.register<Jar>("uberJar") {
+    archiveClassifier.set("uber")
+    duplicatesStrategy = org.gradle.api.file.DuplicatesStrategy.INCLUDE
+
+    from(sourceSets.main.get().output)
+
+    dependsOn(configurations.runtimeClasspath)
+    from({
+             configurations.runtimeClasspath.get()
+                 .filter { it.name.endsWith("jar") }
+                 .map { zipTree(it) }
+         })
+}
+
