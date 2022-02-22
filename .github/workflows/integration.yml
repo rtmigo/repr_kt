@@ -4,7 +4,6 @@ on: [workflow_dispatch]
 
 jobs:
   integration-test:
-    needs: [ to-master ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
