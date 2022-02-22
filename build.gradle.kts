@@ -46,7 +46,7 @@ tasks.test {
 
 tasks.register("updateReadmeVersion") {
     doFirst {
-        replateVersionInReadme()
+        replaceVersionInReadme()
     }
 }
 
@@ -62,25 +62,12 @@ tasks.jacocoTestReport {
     }
 }
 
-/////////////////////////
-
-fun replateVersionInReadme() {
+fun replaceVersionInReadme() {
     val srcFile = project.rootDir.resolve(".README.template.md")
     val dstFile = project.rootDir.resolve("README.md")
 
-    srcFile.inputStream().use { input ->
-        dstFile.printWriter().use { output ->
-            input.bufferedReader().forEachLine { srcLine ->
-                if (!srcLine.startsWith("!!! ")) {
-                        val dstLine = srcLine.replace(
-                            "__TEMPLATE_VERSION__",
-                            project.version.toString()
-                        )
-                        output.println(dstLine)
-                    }
-            }
-        }
-    }
-    //inputStream.close()
+    dstFile.writeText(srcFile.readText().replace(
+        "__TEMPLATE_VERSION__",
+        project.version.toString()
+    ))
 }
-
