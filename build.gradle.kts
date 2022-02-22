@@ -8,7 +8,7 @@ plugins {
 group = "io.github.rtmigo"
 version = "0.0.8"
 
-//Paths("./.README.template.md").re
+//Paths("./.readme_template.md").re
 
 tasks.register("pkgver") {
     doLast {
@@ -46,7 +46,15 @@ tasks.test {
 
 tasks.register("updateReadmeVersion") {
     doFirst {
-        replaceVersionInReadme()
+        // найдем что-то вроде "io.github.rtmigo:repr:0.0.1"
+        // и поменяем на актуальную версию
+        val readmeFile = project.rootDir.resolve("README.md")
+        val prefixToFind = "io.github.rtmigo:repr:"
+        val regex = """(?<=${Regex.escape(prefixToFind)})[0-9\.]+""".toRegex()
+        val oldText = readmeFile.readText()
+        val newText = regex.replace(oldText, project.version.toString())
+        if (newText!=oldText)
+            readmeFile.writeText(newText)
     }
 }
 
@@ -60,14 +68,4 @@ tasks.jacocoTestReport {
         xml.required.set(false)
         csv.required.set(true)
     }
-}
-
-fun replaceVersionInReadme() {
-    val srcFile = project.rootDir.resolve(".README.template.md")
-    val dstFile = project.rootDir.resolve("README.md")
-
-    dstFile.writeText(srcFile.readText().replace(
-        "__TEMPLATE_VERSION__",
-        project.version.toString()
-    ))
 }
