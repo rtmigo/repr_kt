@@ -94,7 +94,7 @@ implementation("io.github.rtmigo:repr")  // newest version
 or
 
 ```kotlin
-implementation("io.github.rtmigo:repr:0.0.8")  // version 0.0.8
+implementation("io.github.rtmigo:repr:0.0.8")  // particular version
 ```
 
 # Use
