@@ -81,7 +81,7 @@ jobs:
 
       - name: Build sample project that uses the package
         run: |
-          pip3 install pip3 install git+https://github.com/rtmigo/kitest_py#egg=kitest
+          pip install git+https://github.com/rtmigo/kitest_py#egg=kitest
           python test_as_dependency.py
           
           
