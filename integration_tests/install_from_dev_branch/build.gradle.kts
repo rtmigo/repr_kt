@@ -7,5 +7,5 @@ repositories { mavenCentral() }
 application { mainClass.set("MainKt") }
 
 dependencies {
-    implementation("io.github.rtmigo:repr") { version { branch = "staging" } }
+    implementation("io.github.rtmigo:repr") { version { branch = "dev" } }
 }
