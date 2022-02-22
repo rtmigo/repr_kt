@@ -6,9 +6,7 @@ plugins {
 }
 
 group = "io.github.rtmigo"
-version = "0.0.8"
-
-//Paths("./.readme_template.md").re
+version = "0.0.9"
 
 tasks.register("pkgver") {
     doLast {
@@ -32,8 +30,6 @@ kotlin {
         val test by getting
     }
 }
-
-// TESTS ///////////////////////////////////////////////////////////////////////////////////////////
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating JaCoCo report
@@ -61,7 +57,6 @@ tasks.register("updateReadmeVersion") {
 tasks.build {
     dependsOn("updateReadmeVersion")
 }
-
 
 tasks.jacocoTestReport {
     reports {

@@ -2,66 +2,51 @@
 ![Generic badge](https://img.shields.io/badge/CI_JVM-8-blue.svg)
 ![JaCoCo](https://raw.github.com/rtmigo/repr_kt/dev_updated_by_actions/.github/badges/jacoco.svg)
 
-# [repr](https://github.com/rtmigo/repr_kt#readme)
+# io.github.rtmigo : [repr](https://github.com/rtmigo/repr_kt#readme)
 
 Kotlin/JVM library. Converts Kotlin objects to strings.
 
-`.toRepr()` aims to produce a string that is valid Kotlin code. Ideally, 
-this string can be copied into the project's source code to create the same objects.
+`.toRepr()` is like `.toString()`, but aims to produce a valid Kotlin code.
 
-Let's say we have the following data:
+Let's say we have the following:
 
 ```kotlin
-data class Day(val name: String, 
-               val num: Int, 
-               val isWeekend: Boolean)
+data class Planet(val name: String, 
+                  val diameter: Int)
 
 val data = mapOf(
-    "week" to listOf(
-        Day("Sunday", 7, true),
-        Day("Monday", 1, false),
-        Day("Tuesday", 2, false),
-        Day("Wednesday", 3, false),
-        Day("Thursday", 4, false),
-        Day("Friday", 5, false),
-        Day("Saturday", 6, true)
+    "planets" to listOf(
+        Planet("Venus", 12104),
+        Planet("Earth", 12742),
+        Planet("Mars", 6779)    
     ),
-    "numFormat" to "ISO-8601"
+    "location" to "Solar System"
 )
 ```
 
-Calling the default `data.toString()` would give us this:
+Calling `data.toString()` would give us this:
 
 ```text
 {
-    week=[
-        Day(name=Sunday, num=7, isWeekend=true), 
-        Day(name=Monday, num=1, isWeekend=false), 
-        Day(name=Tuesday, num=2, isWeekend=false), 
-        Day(name=Wednesday, num=3, isWeekend=false), 
-        Day(name=Thursday, num=4, isWeekend=false), 
-        Day(name=Friday, num=5, isWeekend=false), 
-        Day(name=Saturday, num=6, isWeekend=true)
+    planets=[
+        Planet(name=Venus, diameter=12104), 
+        Planet(name=Earth, diameter=12742),
+        Planet(name=Mars, diameter=6779)      
     ], 
-    numFormat=ISO-8601
+    location=Solar System
 }
 ```
 
-Calling `data.toRepr()` (defined in this library) would give us a string, that is a correct 
-Kotlin code:
+Calling `data.toRepr()`  would give us this:
 
 ```kotlin
 mapOf(
-    "week" to listOf(
-        Day(name="Sunday", num=7, isWeekend=true), 
-        Day(name="Monday", num=1, isWeekend=false), 
-        Day(name="Tuesday", num=2, isWeekend=false), 
-        Day(name="Wednesday", num=3, isWeekend=false), 
-        Day(name="Thursday", num=4, isWeekend=false), 
-        Day(name="Friday", num=5, isWeekend=false), 
-        Day(name="Saturday", num=6, isWeekend=true)
+    "planets" to listOf(
+        Planet(name="Venus", diameter=12104),
+        Planet(name="Earth", diameter=12742),
+        Planet(name="Mars", diameter=6779)
     ), 
-    "numFormat" to "ISO-8601"
+    "location" to "Solar System"
 )
 ```
 
@@ -94,7 +79,7 @@ implementation("io.github.rtmigo:repr")  // newest version
 or
 
 ```kotlin
-implementation("io.github.rtmigo:repr:0.0.8")  // particular version
+implementation("io.github.rtmigo:repr:0.0.9")  // particular version
 ```
 
 # Use
@@ -141,4 +126,4 @@ Specifying the `toRepr` method here is similar to overloading the `__repr__()` m
 
 Copyright © 2022 Artёm IG <github.com/rtmigo>
 
-Licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt).
