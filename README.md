@@ -141,4 +141,4 @@ Specifying the `toRepr` method here is similar to overloading the `__repr__()` m
 
 Copyright © 2022 Artёm IG <github.com/rtmigo>
 
-Licensed under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt).
