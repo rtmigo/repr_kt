@@ -37,7 +37,7 @@ Calling `data.toString()` would give us this:
 }
 ```
 
-Calling `data.toRepr()`  would give us this::
+Calling `data.toRepr()`  would give us this:
 
 ```kotlin
 mapOf(
