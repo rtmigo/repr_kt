@@ -15,7 +15,7 @@ on:
       - '.github/badges/**.svg'
 
 jobs:
-  test:
+  unit-test:
     timeout-minutes: 15
 
     runs-on: ${{ matrix.os }}
@@ -78,7 +78,7 @@ jobs:
           ./test.sh
 
   to-staging:
-    needs: [test, integration-test]
+    needs: [unit-test, integration-test-dev]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
