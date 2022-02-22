@@ -14,4 +14,3 @@ if result.text.strip() != "listOf(1, 2, 3)":
     exit(1)
 
 print("Everything is OK!")
-
