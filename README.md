@@ -2,7 +2,7 @@
 ![Generic badge](https://img.shields.io/badge/CI_JVM-8-blue.svg)
 ![JaCoCo](https://raw.github.com/rtmigo/repr_kt/dev_updated_by_actions/.github/badges/jacoco.svg)
 
-# [io.github.rtmigo : repr](https://github.com/rtmigo/repr_kt#readme)
+# io.github.rtmigo : [repr](https://github.com/rtmigo/repr_kt#readme)
 
 Kotlin/JVM library. Converts Kotlin objects to strings.
 
