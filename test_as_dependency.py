@@ -1,6 +1,6 @@
 # uses https://github.com/rtmigo/kitest_py
 
-from kitest import AppWithGitDependency
+from kitest import *
 
 with AppWithGitDependency(
     module="io.github.rtmigo:repr",
@@ -11,6 +11,6 @@ with AppWithGitDependency(
         fun main() = println(listOf(1, 2, 3).toRepr())
     """) as app:
 
-    app.run().assert_output_is("listOf(1, 2, 3)")
+    app.run().assert_output_is("listOf(1, 2, 3)\n")
 
 print("Everything is OK!")
