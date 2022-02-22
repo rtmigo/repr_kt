@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.rtmigo"
-version = "0.0.10"
+version = "0.0.10+1"
 
 tasks.register("pkgver") {
     doLast {
@@ -46,7 +46,7 @@ tasks.register("updateReadmeVersion") {
         // и поменяем на актуальную версию
         val readmeFile = project.rootDir.resolve("README.md")
         val prefixToFind = "io.github.rtmigo:repr:"
-        val regex = """(?<=${Regex.escape(prefixToFind)})[0-9\.]+""".toRegex()
+        val regex = """(?<=${Regex.escape(prefixToFind)})[0-9\.+]+""".toRegex()
         val oldText = readmeFile.readText()
         val newText = regex.replace(oldText, project.version.toString())
         if (newText!=oldText)
