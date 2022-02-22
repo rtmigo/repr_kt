@@ -73,7 +73,7 @@ jobs:
           distribution: 'adopt'
           cache: gradle
       - name: Test install and run
-        run:
+        run: |
           cd integration_tests/install_from_dev_branch
           ./test.sh
 
