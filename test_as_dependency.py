@@ -1,6 +1,6 @@
 # uses https://github.com/rtmigo/kitest_py
 
-from kitest import run_with_git_dependency
+from kitest import AppWithGitDependency
 
 with AppWithGitDependency(
     module="io.github.rtmigo:repr",
