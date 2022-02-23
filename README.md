@@ -101,41 +101,36 @@ listOf(1, 2, 3)
 
 ## Override .toRepr for your class
 
-`.toRepr()` automatically converts all objects. But sometimes you may want to tweak the way the 
-are converted.
+The `.toRepr()` extension method automatically converts `Any` objects.
 
-```kotlin
-class Time(seconds: Double) {
-    val days: Double = seconds / 86400
-}
-```
-
-The only public property of this object is `days`. By default, the object will be converted to 
-`Time(days=...)`.
-
-If you want the `seconds` value to be in the string, define the `Quantity.toRepr()` method.  
-
+Sometimes you may want to tweak the way you objects are converted. To do this,
+define `toRepr(): String` method for you class.
 
 ```kotlin
 import io.github.rtmigo.repr.toRepr
 
-class Time(seconds: Double) {
-    val days: Double = seconds / 86400
-    fun toRepr(): String = """Time(${days*86400})"""
+class TimeDefault(days: Int) {
+    val hours = days * 24
+}
+
+class TimeTweaked(days: Int) {
+    val hours = days * 24
+    fun toRepr() = """TimeTweaked(days=${hours / 24})"""
 }
 
 fun main() {
-    val data = listOf(Time(0.17), Time(0.231))
-    println(data.toRepr())
+    println(listOf(TimeDefault(days = 1), TimeDefault(days = 7)).toRepr())
+    println(listOf(TimeTweaked(days = 1), TimeTweaked(days = 7)).toRepr())
 }
 ```
 
 Output:
-```kotlin
-listOf(Time(0.17), Time(0.231))
-```
 
-Specifying the `toRepr` method here is similar to overloading the `__repr__()` method in Python.
+```text
+listOf(TimeDefault(hours=24), TimeDefault(hours=168))
+listOf(TimeTweaked(days=1), TimeTweaked(days=7))
+```
+<sub>Specifying the `toRepr` method here is similar to overloading the `__repr__()` method in Python.</sub>
 
 
 # License
