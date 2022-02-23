@@ -23,7 +23,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest ] #
+        os: [ ubuntu-latest, ] # windows-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -63,7 +63,11 @@ jobs:
           git push origin dev:dev_updated_by_actions --force || true
 
   integration-test-dev:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ ubuntu-latest,  ] # windows-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -79,7 +83,7 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Build sample project that uses the package
+      - name: Build sample project that uses the library
         run: |
           pip install git+https://github.com/rtmigo/kitest_py#egg=kitest
           python test_as_dependency.py dev
@@ -114,7 +118,7 @@ jobs:
           target_branch: master
           github_token: ${{ github.token }}
 
-  integration-test-master:
+  integration-test-default:
     needs: [to-master]
     runs-on: ubuntu-latest
     steps:
@@ -132,13 +136,13 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Build sample project that uses the package
+      - name: Build sample project that uses the library
         run: |
           pip install git+https://github.com/rtmigo/kitest_py#egg=kitest
-          python test_as_dependency.py master
+          python test_as_dependency.py 
 
   to-github-release:
-    needs: [ integration-test-master ]
+    needs: [ integration-test-default ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

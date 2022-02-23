@@ -6,7 +6,7 @@ from kitest import *
 with AppWithGitDependency(
     module="io.github.rtmigo:repr",
     url="https://github.com/rtmigo/repr_kt",
-    branch=sys.argv[1],
+    branch=sys.argv[1] if len(sys.argv)>=2 else None,
     main_kt="""
         import io.github.rtmigo.repr.*
         fun main() = println(listOf(1, 2, 3).toRepr())
