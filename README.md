@@ -115,7 +115,7 @@ class TimeDefault(days: Int) {
 
 class TimeTweaked(days: Int) {
     val hours = days * 24
-    fun toRepr() = """TimeTweaked(days=${hours / 24})"""
+    fun toRepr() = "TimeTweaked(days=${hours / 24})"
 }
 
 fun main() {
