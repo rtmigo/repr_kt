@@ -116,7 +116,7 @@ class Quantity(fraction: Double) {
 The only public property of this object is `pct`. By default, the object will be converted to 
 `Quantity(pct=...)`.
 
-If you want `Quantity(fraction=...)`, define the `Quantity.toRepr()` method.  
+If you want the `fraction` value to be in the string, define the `Quantity.toRepr()` method.  
 
 
 ```kotlin
