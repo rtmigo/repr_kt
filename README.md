@@ -1,5 +1,5 @@
-![Generic badge](https://img.shields.io/badge/status-experimental-red.svg)
-![Generic badge](https://img.shields.io/badge/CI_JVM-8-blue.svg)
+![Generic badge](https://img.shields.io/badge/stability-experimental-red.svg)
+![Generic badge](https://img.shields.io/badge/JVM-8-blue.svg)
 ![JaCoCo](https://raw.github.com/rtmigo/repr_kt/dev_updated_by_actions/.github/badges/jacoco.svg)
 
 # io.github.rtmigo : [repr](https://github.com/rtmigo/repr_kt#readme)
@@ -99,24 +99,44 @@ Output:
 listOf(1, 2, 3)
 ```
 
-### Override .toRepr for your class
+## Override .toRepr for your class
+
+`.toRepr()` automatically converts all objects. But sometimes you may want to tweak the way the 
+are converted.
+
+```kotlin
+import kotlin.math.roundToInt
+
+/** gets Double as input, but exposes only rounded Int */
+class Quantity(fraction: Double) {
+    val pct: Int = (fraction * 100).roundToInt()
+}
+```
+
+The only public property of this object is `pct`. By default, the object will be converted to 
+`Quantity(pct=...)`.
+
+If you want the `fraction` value to be in the string, define the `Quantity.toRepr()` method.  
+
 
 ```kotlin
 import io.github.rtmigo.repr.toRepr
+import kotlin.math.roundToInt
 
-class MyClass(val x: String) {
-    fun toRepr() = """MyClass("${x.uppercase()}!!!")"""
+class Quantity(fraction: Double) {
+    val pct: Int = (fraction * 100).roundToInt()
+    fun toRepr(): String = """Quantity(fraction=${fraction})"""
 }
 
 fun main() {
-    val data = listOf(MyClass("ping"), MyClass("pong"))
+    val data = listOf(Quantity(0.17), Quantity(0.231))
     println(data.toRepr())
 }
 ```
 
 Output:
 ```kotlin
-listOf(MyClass("PING!!!"), MyClass("PONG!!!"))
+listOf(Quantity(fraction=0.17), Quantity(fraction=0.231))
 ```
 
 Specifying the `toRepr` method here is similar to overloading the `__repr__()` method in Python.
