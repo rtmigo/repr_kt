@@ -71,7 +71,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Remove source the files
+      - name: Remove source files
         run: rm -rf src
 
       - name: Setup JDK 8
