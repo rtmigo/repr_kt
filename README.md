@@ -105,38 +105,34 @@ listOf(1, 2, 3)
 are converted.
 
 ```kotlin
-import kotlin.math.roundToInt
-
-/** gets Double as input, but exposes only rounded Int */
-class Quantity(fraction: Double) {
-    val pct: Int = (fraction * 100).roundToInt()
+class Time(seconds: Double) {
+    val days: Double = seconds / 86400
 }
 ```
 
-The only public property of this object is `pct`. By default, the object will be converted to 
-`Quantity(pct=...)`.
+The only public property of this object is `days`. By default, the object will be converted to 
+`Time(days=...)`.
 
-If you want the `fraction` value to be in the string, define the `Quantity.toRepr()` method.  
+If you want the `seconds` value to be in the string, define the `Quantity.toRepr()` method.  
 
 
 ```kotlin
 import io.github.rtmigo.repr.toRepr
-import kotlin.math.roundToInt
 
-class Quantity(fraction: Double) {
-    val pct: Int = (fraction * 100).roundToInt()
-    fun toRepr(): String = """Quantity(fraction=${fraction})"""
+class Time(seconds: Double) {
+    val days: Double = seconds / 86400
+    fun toRepr(): String = """Time(${days*86400})"""
 }
 
 fun main() {
-    val data = listOf(Quantity(0.17), Quantity(0.231))
+    val data = listOf(Time(0.17), Time(0.231))
     println(data.toRepr())
 }
 ```
 
 Output:
 ```kotlin
-listOf(Quantity(fraction=0.17), Quantity(fraction=0.231))
+listOf(Time(0.17), Time(0.231))
 ```
 
 Specifying the `toRepr` method here is similar to overloading the `__repr__()` method in Python.
