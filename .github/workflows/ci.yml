@@ -118,7 +118,7 @@ jobs:
           target_branch: master
           github_token: ${{ github.token }}
 
-  integration-test-master:
+  integration-test-default:
     needs: [to-master]
     runs-on: ubuntu-latest
     steps:
@@ -139,10 +139,10 @@ jobs:
       - name: Build sample project that uses the package
         run: |
           pip install git+https://github.com/rtmigo/kitest_py#egg=kitest
-          python test_as_dependency.py master
+          python test_as_dependency.py 
 
   to-github-release:
-    needs: [ integration-test-master ]
+    needs: [ integration-test-default ]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
