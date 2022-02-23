@@ -99,7 +99,7 @@ Output:
 listOf(1, 2, 3)
 ```
 
-## Override .toRepr for your class
+## Tweak .toRepr for your class
 
 The `.toRepr()` extension method automatically converts `Any` objects.
 
