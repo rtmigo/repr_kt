@@ -104,7 +104,7 @@ listOf(1, 2, 3)
 The `.toRepr()` extension method automatically converts `Any` objects.
 
 Sometimes you may want to tweak the way you objects are converted. To do this,
-define `toRepr(): String` method for you class.
+define `toRepr(): String` method for your class.
 
 ```kotlin
 import io.github.rtmigo.repr.toRepr
