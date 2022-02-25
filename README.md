@@ -99,12 +99,12 @@ Output:
 listOf(1, 2, 3)
 ```
 
-## Override .toRepr for your class
+## Customize .toRepr for your class
 
 The `.toRepr()` extension method automatically converts `Any` objects.
 
-Sometimes you may want to tweak the way you objects are converted. To do this,
-define `toRepr(): String` method for you class.
+Sometimes you may want to customize the way how your objects are converted. To do this,
+define `toRepr(): String` method for your class.
 
 ```kotlin
 import io.github.rtmigo.repr.toRepr
@@ -115,7 +115,7 @@ class TimeDefault(days: Int) {
 
 class TimeTweaked(days: Int) {
     val hours = days * 24
-    fun toRepr() = """TimeTweaked(days=${hours / 24})"""
+    fun toRepr() = "TimeTweaked(days=${hours / 24})"
 }
 
 fun main() {
