@@ -1,5 +1,5 @@
-![Generic badge](https://img.shields.io/badge/JVM-8-blue.svg)
-![JaCoCo](https://raw.github.com/rtmigo/repr_kt/dev_updated_by_actions/.github/badges/jacoco.svg)
+![Generic badge](https://img.shields.io/badge/JVM-8+-blue.svg)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.rtmigo/repr.svg)](https://search.maven.org/artifact/io.github.rtmigo/repr)
 
 # [repr](https://github.com/rtmigo/repr_kt#readme)
 
