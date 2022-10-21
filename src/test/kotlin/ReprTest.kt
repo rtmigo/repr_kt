@@ -1,5 +1,5 @@
 /**
- * SPDX-FileCopyrightText: (c) 2022 Artёm IG <github.com/rtmigo>
+ * SPDX-FileCopyrightText: (c) 2022 Artsiom iG <github.com/rtmigo>
  * SPDX-License-Identifier: Apache-2.0
  **/
 
