@@ -1,6 +1,6 @@
 import sys
 
-from tempp import *
+from tempground import TempGround
 
 module="io.github.rtmigo:repr"
 
@@ -16,7 +16,7 @@ try:
 except IndexError:
     imp_details = ""
 
-with TempProject(
+with TempGround(
         files={
             # minimalistic build script to use the library
             "build.gradle.kts": """
