@@ -3,10 +3,47 @@ plugins {
     id("java-library")
     jacoco
     java
+    id("maven-publish")
+}
+java {
+    withSourcesJar()
+    withJavadocJar()
 }
 
 group = "io.github.rtmigo"
-version = "0.0.10+2"
+version = "0.0.10+3"
+
+publishing {
+    publications {
+        create<MavenPublication>("repr") {
+            from(components["java"])
+            pom {
+                val github = "https://github.com/rtmigo/repr_kt"
+
+                name.set("repr")
+                description.set("Converts Kotlin objects to strings. Inspired by Python `repr`.")
+                url.set(github)
+
+                developers {
+                    developer {
+                        name.set("Artsiom iG")
+                        email.set("ortemeo@gmail.com")
+                    }
+                }
+                scm {
+                    url.set(github)
+                    connection.set(github.replace("https:", "scm:git:")) // + ".git"
+                }
+                licenses {
+                    license {
+                        name.set("Apache 2.0 License")
+                        url.set("$github/blob/HEAD/LICENSE")
+                    }
+                }
+            }
+        }
+    }
+}
 
 tasks.register("pkgver") {
     doLast {

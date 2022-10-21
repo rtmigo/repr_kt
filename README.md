@@ -1,8 +1,7 @@
-![Generic badge](https://img.shields.io/badge/stability-experimental-red.svg)
 ![Generic badge](https://img.shields.io/badge/JVM-8-blue.svg)
 ![JaCoCo](https://raw.github.com/rtmigo/repr_kt/dev_updated_by_actions/.github/badges/jacoco.svg)
 
-# io.github.rtmigo : [repr](https://github.com/rtmigo/repr_kt#readme)
+# [repr](https://github.com/rtmigo/repr_kt#readme)
 
 Kotlin/JVM library. Converts Kotlin objects to strings.
 
@@ -135,6 +134,5 @@ listOf(TimeTweaked(days=1), TimeTweaked(days=7))
 
 # License
 
-Copyright © 2022 Artёm IG <github.com/rtmigo>
-
+Copyright © 2022 [Artsiom iG](https://github.com/rtmigo).
 Licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt).
