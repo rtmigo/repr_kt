@@ -5,13 +5,20 @@
 
 package io.github.rtmigo.repr
 
+
+import org.apache.commons.text.translate.*
+import java.util.*
 import kotlin.reflect.*
 import kotlin.reflect.full.*
 import kotlin.reflect.jvm.internal.KotlinReflectionInternalError
 import kotlin.reflect.jvm.isAccessible
 
+//private val specialCharRx = Regex("""[\n\r\t\\"$]""")
+
+
+
 private fun quotedString(text: String): String =
-    "\"${text.replace("\"", "\\\"")}\""
+    "\"${text.escapeSpecialChars()}\"" // .replace("\"", "\\\"")
 
 
 private fun quotedChar(c: Char): String =
@@ -54,14 +61,14 @@ private class AnalyzedObject(val obj: Any) {
      * All the properties that we want to convert as `propertyName=value`.
      **/
     val convertibleProperties: Collection<KProperty1<*, *>> by
-        lazy {
-            (if (areNamedParamsCorrespondToProperties)
-                namedParams.map { obj::class.findDeclaredMemberProperty(it.name!!) }
-            else
-                obj::class.declaredMemberProperties)
+    lazy {
+        (if (areNamedParamsCorrespondToProperties)
+            namedParams.map { obj::class.findDeclaredMemberProperty(it.name!!) }
+        else
+            obj::class.declaredMemberProperties)
 
-                .filter { prop -> prop.visibility == KVisibility.PUBLIC }
-        }
+            .filter { prop -> prop.visibility == KVisibility.PUBLIC }
+    }
 }
 
 private fun reflectConstructorProperties(pre: AnalyzedObject): String {
@@ -195,10 +202,12 @@ fun Any?.toRepr(): String {
             arrayContents(
                 this.iterator().asSequence().map { it.toInt() })
         })"
+
         is ShortArray -> "shortArrayOf(${
             arrayContents(
                 this.iterator().asSequence().map { it.toInt() })
         })"
+
         is IntArray -> "intArrayOf(${arrayContents(this.iterator().asSequence())})"
         is LongArray -> "longArrayOf(${arrayContents(this.iterator().asSequence())})"
 
@@ -211,8 +220,7 @@ fun Any?.toRepr(): String {
             val pre = AnalyzedObject(this)
             if (pre.convertibleProperties.isNotEmpty()) {
                 reflectConstructorProperties(pre)
-            }
-            else {
+            } else {
                 // у объекта нет ни одного свойства. Возможно, его можно создать
                 // конструктором MyClass(). Но гадать уже не хочется.
                 //
