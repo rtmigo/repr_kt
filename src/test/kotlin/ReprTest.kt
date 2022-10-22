@@ -223,9 +223,20 @@ class ReprTests123 {
 
     @Test
     fun ushort() {
-        assertEquals(            "4242.toUShort()", 4242.toUShort().toRepr()        )
+        assertEquals("4242.toUShort()", 4242.toUShort().toRepr()        )
     }
 
+    @Test
+    fun stringWithDollar() {
+        assertEquals("\"The dollar sign is \\\$. Yes.\"",
+                     "The dollar sign is \$. Yes.".toRepr()        )
+    }
+
+    @Test
+    fun stringWithNRT() {
+        assertEquals("\"Special chars are \\t\\n\\r\\b!!!\"",
+                     "Special chars are \t\n\r\b!!!".toRepr()        )
+    }
 
     @Test
     fun defaultToClassName() {
