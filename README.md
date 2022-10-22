@@ -55,31 +55,19 @@ The library uses the features of Kotlin reflection. It is inspired by Python's b
 [`repr`]([https://docs.python.org/3/library/functions.html#repr]) function (and `__repr__` 
 overloads). 
 
-# Install
-
-*(instructions for Gradle Kotlin DSL)*
-
-### settings.gradle.kts
+# Install [![Maven Central](https://img.shields.io/maven-central/v/io.github.rtmigo/repr.svg)](https://search.maven.org/artifact/io.github.rtmigo/repr)
 
 ```kotlin
-sourceControl {
-    gitRepository(java.net.URI("https://github.com/rtmigo/repr_kt.git")) {
-        producesModule("io.github.rtmigo:repr")
-    }
+// build.gradle.kts
+
+dependencies {
+    implementation("io.github.rtmigo:repr:X.X.X")
+    // replace X.X.X with actual version
 }
 ```
 
-### build.gradle.kts
-
-```kotlin
-implementation("io.github.rtmigo:repr")  // newest version
-```
-
-or
-
-```kotlin
-implementation("io.github.rtmigo:repr:0.0.9")  // particular version
-```
+Find the latest version and instructions for other build systems
+at [Maven Central](https://search.maven.org/artifact/io.github.rtmigo/repr).
 
 # Use
 
